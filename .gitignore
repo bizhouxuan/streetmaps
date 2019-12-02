@@ -2,7 +2,6 @@ cache/
 images/
 data/
 __pycache__/
+.vscode/
 *.pyc
-.vscode
 .DS_Store
-.vscode/settings.json
