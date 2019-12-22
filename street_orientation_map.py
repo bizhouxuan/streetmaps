@@ -125,7 +125,7 @@ def load_places():
 
 def get_bearings(places):
     try:
-        gdf = ox.gdf_from_places(places.values())
+        ox.gdf_from_places(places.values())
     except Exception as e:
         print(f'Failed to load city data: {e}')
 
@@ -178,7 +178,7 @@ def print_single():
         # create figure and axes
         graph = ox.graph_from_place(places[place], network_type='drive')
         projected_graph = ox.project_graph(graph)
-        fig, axes = ox.plot_graph(projected_graph, fig_height=20, dpi=200, node_size=0, show=False, filename=filename, save=True)
+        ox.plot_graph(projected_graph, fig_height=25, dpi=300, margin=0.0, node_size=0, show=False, filename=filename, save=True)
         #fig.savefig(map_path, show=False)
 
 def check_places():

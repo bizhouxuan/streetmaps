@@ -1,7 +1,3 @@
 {
-    "Manhattan": {"city": "Manhattan"},
-    "Brooklyn": {"city": "Brooklyn"},
-    "Queens": {"city": "Queens"},
-    "Staten Island": {"city": "Staten Island"},
-    "The Bronx": {"city": "The Bronx"}
+    "New York City": "New York City"
 }
