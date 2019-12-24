@@ -10,11 +10,11 @@ def print_help():
     print('e.g., 0.12527823  0.012408118')
     print('where, the first column is the orientation in radian and the second is the unnormalized probability.')
 
-def calculate_entropy(orientations, frequencies):
-    bin_size = orientations[1]-orientations[0]
-    print('Bin size (radian): ',bin_size)
-    #Need to subtract the background from the PSDF curve before calculating entropy.
-    orientation_entropy = entropy(frequencies-min(frequencies))+math.log(bin_size)
+def calculate_entropy(k, psd):
+    bin_size = k[1]-k[0]
+    print('Bin size (1/m): ',bin_size)
+    #For radial distribution, may NOT need to subtract the background from the PSDF curve before calculating entropy.
+    orientation_entropy = entropy(psd)+math.log(bin_size)
     print(orientation_entropy)
 
 if __name__ == '__main__':
@@ -23,8 +23,8 @@ if __name__ == '__main__':
         sys.exit(-1)
     filename = sys.argv[1]
     try:
-        orientations=np.loadtxt(filename)[:, 0]
-        frequencies=np.loadtxt(filename)[:, 1]
-        calculate_entropy(orientations, frequencies)
+        k=np.loadtxt(filename)[:, 0]
+        psd=np.loadtxt(filename)[:, 1]
+        calculate_entropy(k, psd)
     except Exception as e:
         print(f'Error: {e}.')
