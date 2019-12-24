@@ -4,11 +4,11 @@ import numpy as np
 from scipy.stats import entropy
 
 def print_help():
-    print('Usage: entropy.py FILE')
-    print('Calculate the orientation entropy of a city\'s street network.')
-    print('The FILE argument is the path to the file containing the two-col orientation distribution date.')
+    print('Usage: radial_entropy.py FILE')
+    print('Calculate the spatial freguency entropy of a city\'s street network.')
+    print('The FILE argument is the path to the file containing the two-col k distribution date.')
     print('e.g., 0.12527823  0.012408118')
-    print('where, the first column is the orientation in radian and the second is the unnormalized probability.')
+    print('where, the first column is the wave vector k in 1/m and the second is the PSD (power spectral density).')
 
 def calculate_entropy(k, psd):
     bin_size = k[1]-k[0]
