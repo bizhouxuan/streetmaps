@@ -10,6 +10,7 @@ from pyproj import Geod
 import numpy as np
 import osmnx as ox
 import pandas as pd
+import geopandas as gpd
 import requests
 
 
@@ -125,7 +126,7 @@ def load_places():
 
 def get_bearings(places):
     try:
-        ox.gdf_from_places(places.values())
+        ox.geocode_to_gdf(list(places.values()))
     except Exception as e:
         print(f'Failed to load city data: {e}')
 
@@ -173,13 +174,19 @@ def print_single():
     places = load_places()
 
     for place in places:
-        #map_path = get_filename(f'images/{place}_map')
-        filename = f'{place}_map'
+        filepath = f'images/{place}_map.png'
+
         # create figure and axes
+        #ox.graph_from_gdfs(myGDF)
         graph = ox.graph_from_place(places[place], network_type='drive')
         projected_graph = ox.project_graph(graph)
-        ox.plot_graph(projected_graph, fig_height=25, dpi=300, margin=0.0, node_size=0, show=False, filename=filename, save=True)
-        #fig.savefig(map_path, show=False)
+        minx, miny, maxx, maxy = ox.graph_to_gdfs(projected_graph, edges=False).geometry.total_bounds
+        width = maxx-minx
+        height = maxy-miny
+        print("width (km), height (km)")
+        print("{:.3f}".format(width/1000.0), "{:.3f}".format(height/1000.0))
+        y2xscale = height/width
+        ox.plot_graph(projected_graph, figsize=(8,8*y2xscale), dpi=600, node_size=0, edge_linewidth=0.3, filepath=filepath, save=True, show=False, close=True)
 
 def check_places():
     places = load_places()
