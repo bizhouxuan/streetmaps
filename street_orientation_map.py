@@ -176,11 +176,10 @@ def print_single():
     for place in places:
         filepath = f'images/{place}_map.png'
 
-        # create figure and axes
-        #ox.graph_from_gdfs(myGDF)
         graph = ox.graph_from_place(places[place], network_type='drive')
         projected_graph = ox.project_graph(graph)
         minx, miny, maxx, maxy = ox.graph_to_gdfs(projected_graph, edges=False).geometry.total_bounds
+        #width and height of the bounding box (in meters)
         width = maxx-minx
         height = maxy-miny
         print("width (km), height (km)")
