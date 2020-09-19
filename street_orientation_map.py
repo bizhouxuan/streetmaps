@@ -174,18 +174,21 @@ def print_single():
     places = load_places()
 
     for place in places:
-        filepath = f'images/{place}_map.png'
+        filepath = f'images/{place}.png'
 
         graph = ox.graph_from_place(places[place], network_type='drive')
         projected_graph = ox.project_graph(graph)
-        minx, miny, maxx, maxy = ox.graph_to_gdfs(projected_graph, edges=False).geometry.total_bounds
+        #west, south, east, north = ox.graph_to_gdfs(projected_graph, edges=False).geometry.total_bounds
+        west, south, east, north = ox.graph_to_gdfs(projected_graph, edges=False).unary_union.bounds
         #width and height of the bounding box (in meters)
-        width = maxx-minx
-        height = maxy-miny
+        width = east-west
+        height = north-south
         print("width (km), height (km)")
         print("{:.3f}".format(width/1000.0), "{:.3f}".format(height/1000.0))
         y2xscale = height/width
-        ox.plot_graph(projected_graph, figsize=(8,8*y2xscale), dpi=600, node_size=0, edge_linewidth=0.3, filepath=filepath, save=True, show=False, close=True)
+        figsize = (8, 8*y2xscale)
+        bbox = (north,south,east,west)
+        ox.plot_graph(projected_graph, figsize=figsize, dpi=600, node_size=0, edge_linewidth=0.3, filepath=filepath, save=True, show=False, close=True, bbox=bbox)
 
 def check_places():
     places = load_places()
