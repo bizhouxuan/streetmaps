@@ -2,6 +2,7 @@ import sys
 import math
 import numpy as np
 from scipy.stats import entropy
+import argparse
 
 def print_help():
     print('Usage: entropy.py FILE')
@@ -13,18 +14,25 @@ def print_help():
 def calculate_entropy(orientations, frequencies):
     bin_size = orientations[1]-orientations[0]
     print('Bin size (radian): ',bin_size)
-    #Need to subtract the background from the PSDF curve before calculating entropy.
-    orientation_entropy = entropy(frequencies-min(frequencies))+math.log(bin_size)
+    orientation_entropy = entropy(frequencies)+math.log(bin_size)
+    #orientation_entropy = entropy(frequencies-min(frequencies))+math.log(bin_size)
     print(orientation_entropy)
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("delimiter", help="delimiter separating data in a row")
+    parser.add_argument("skiprows", type=int, help="number of rows to skip")
+    parser.add_argument("filename", help="name of the data file")
+    args = parser.parse_args()
+
     if len(sys.argv) == 1:
         print_help()
         sys.exit(-1)
-    filename = sys.argv[1]
+    delimiter = args.delimiter
+    skiprows = args.skiprows
+    filename = args.filename
     try:
-        orientations=np.loadtxt(filename)[:, 0]
-        frequencies=np.loadtxt(filename)[:, 1]
+        orientations, frequencies= np.loadtxt(filename, usecols = (0,1), unpack=True, delimiter=delimiter, skiprows=skiprows)
         calculate_entropy(orientations, frequencies)
     except Exception as e:
         print(f'Error: {e}.')
