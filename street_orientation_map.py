@@ -188,7 +188,9 @@ def print_single():
         y2xscale = height/width
         figsize = (8, 8*y2xscale)
         bbox = (north,south,east,west)
-        ox.plot_graph(projected_graph, figsize=figsize, dpi=600, node_size=0, edge_linewidth=0.3, filepath=filepath, save=True, show=False, close=True, bbox=bbox)
+        ox.plot_graph(projected_graph, figsize=figsize, dpi=600, node_size=0, edge_linewidth=0.3, 
+                    bgcolor="#000000", edge_color="#FFFFFF", filepath=filepath, save=True, show=False, 
+                    close=True, bbox=bbox)
 
 def check_places():
     places = load_places()
