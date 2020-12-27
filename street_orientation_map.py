@@ -205,7 +205,7 @@ def print_single():
         widthininches = 1.29*width/pixelsize/dpi
         figsize = (widthininches, widthininches*y2xscale)
         bbox = (north,south,east,west)
-        ox.plot_graph(projected_graph, figsize=figsize, dpi=dpi, node_size=0, edge_linewidth=0.3, 
+        ox.plot_graph(projected_graph, figsize=figsize, dpi=dpi, node_size=0, edge_linewidth=0.1, 
                     bgcolor="#000000", edge_color="#FFFFFF", filepath=filepath, save=True, show=False, 
                     close=True, bbox=bbox)
 
