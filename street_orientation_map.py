@@ -173,6 +173,21 @@ def print_list():
 def print_single():
     places = load_places()
 
+    # Default pixel size, 5m/pixel, which corresponds to sampling frequency 0.2/m and Nyquist frequency 0.1/m.
+    pixelsize = 5.0
+    if len(sys.argv)==3:
+        #User didn't supply a pixel size. Use default pixel size instead.
+        print("Default pixel size is", "{:.1f}".format(pixelsize), "meters.")
+    else:
+        #Use user supplied pixel size
+        try:
+            pixelsize = float(sys.argv[2])
+            print("User-supplied pixel size is", "{:.1f}".format(pixelsize), "meters.")
+        except Exception as e:
+            print("User-supplied pixel size is not a number. Use default size instead.")
+            pixelsize = 5.0
+            print("Default pixel size is", "{:.1f}".format(pixelsize), "meters.")
+
     for place in places:
         filepath = f'images/{place}.png'
 
@@ -185,10 +200,12 @@ def print_single():
         height = north-south
         print("width (km), height (km)")
         print("{:.3f}".format(width/1000.0), "{:.3f}".format(height/1000.0))
+        dpi=600
         y2xscale = height/width
-        figsize = (8, 8*y2xscale)
+        widthininches = 1.29*width/pixelsize/dpi
+        figsize = (widthininches, widthininches*y2xscale)
         bbox = (north,south,east,west)
-        ox.plot_graph(projected_graph, figsize=figsize, dpi=600, node_size=0, edge_linewidth=0.3, 
+        ox.plot_graph(projected_graph, figsize=figsize, dpi=dpi, node_size=0, edge_linewidth=0.3, 
                     bgcolor="#000000", edge_color="#FFFFFF", filepath=filepath, save=True, show=False, 
                     close=True, bbox=bbox)
 
